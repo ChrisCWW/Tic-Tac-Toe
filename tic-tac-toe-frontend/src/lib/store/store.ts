@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
-import indexReducer from '@/lib/store/features/indexSlice';
+import indexReducer from '@/lib/store/features/IndexSlice';
+import gameReducer from '@/lib/store/features/GameSlice';
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
       index: indexReducer,
+      game: gameReducer
     },
   });
 };

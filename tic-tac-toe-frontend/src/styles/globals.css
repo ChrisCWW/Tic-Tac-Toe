@@ -1,12 +1,12 @@
 :root {
   --background: #faf8ef;
   --foreground: #67645d;
-  --button: #bbb7a9;
+  --button: #edece5;
   --button-2: #eae7db;
   --button-3: #e0ddcf;
   --border: #d1cbc0;
 }
-
+ 
 html,
 body {
   background-color: var(--background);
@@ -15,12 +15,19 @@ body {
   overflow-x: hidden;
 }
 
+@keyframes start {
+  from {
+    opacity: 0;
+  }
+}
+
 body {
   font-family: Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: flex;
   flex-direction: column;
+  animation: start 0.4s;
 }
 
 h1, h2, p {

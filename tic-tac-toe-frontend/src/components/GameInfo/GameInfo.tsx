@@ -5,17 +5,17 @@ import Image from 'next/image';
 import { Socket } from 'socket.io-client';
 import MessageBox from '@/components/MessageBox/MessageBox';
 import { RootState } from '@/lib/store/store';
+import { GameMode } from '@/types/GameTypes';
 import styles from './GameInfo.module.css';
 
-function GameInfo({ socket, turn }: { socket?: Socket, turn: number }) {
-  console.log("Game Info");
+function GameInfo({ socket}: { socket?: Socket }) {
 
   const router = useRouter();
-  const isNetworkGame = useSelector((state: RootState) => state.index.isNetwork);
+  const data = useSelector((state: RootState) => state.game);
   const [messageBox, setMessageBox] = useState(false);
 
   const exitGmae = () => {
-    if (isNetworkGame) socket?.emit('leaveGame');
+    if (data.mode === GameMode.network) socket?.emit('ttt-leave');
     router.push('/');
   }
 
@@ -26,20 +26,23 @@ function GameInfo({ socket, turn }: { socket?: Socket, turn: number }) {
 
   return (
     <div className={styles.info}>
-      <button className={styles.exit} onClick={()=> toggleMessageBox(true)}>Exit</button>
-      <div className={styles.content}>
-        <Image
-          className={`${styles.icon} ${!(turn % 2) && styles.on}`}
-          src={'/images/circle.png'}
-          alt=''
-          width={50}
-          height={50} />
-        <Image
-          className={`${styles.icon} ${(turn % 2) && styles.on}`}
-          src={'/images/cross.png'}
-          alt=''
-          width={50}
-          height={50} />
+      <div className={styles.boxView}>
+        <div className={styles.content}>
+          <Image
+            className={`${styles.icon} ${!(data.turn % 2) && styles.on}`}
+            src={'/images/circle.png'}
+            alt=''
+            width={50}
+            height={50} />
+          <Image
+            className={`${styles.icon} ${(data.turn % 2) && styles.on}`}
+            src={'/images/cross.png'}
+            alt=''
+            width={50}
+            height={50} />
+        </div>
+
+        <button className={styles.exit} onClick={()=> toggleMessageBox(true)}>Exit</button>
       </div>
 
       { messageBox &&

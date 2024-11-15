@@ -18,7 +18,7 @@
 }
 
 .container {
-    z-index: 2;
+    z-index: 1;
     position: fixed;
     top: 0;
     bottom: 0;
@@ -27,9 +27,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    backdrop-filter: blur(6px);
+    backdrop-filter: blur(max(1vw, 0.8vh));
     animation: blur 0.4s;
 }
+
 .loading {
     display: flex;
     justify-content: center;
@@ -37,8 +38,8 @@
     min-width: 80px;
     aspect-ratio: 1;
     background-color: var(--button-2);
-    border: min(1vw, 1vh) solid var(--border);
-    border-radius: min(2vw, 2vh);
+    border: min(1.8vw, 0.8vh) solid var(--border);
+    border-radius: min(4vw, 2vh);
     padding: min(3vw, 3vh);
     animation: beat 4s infinite;
 }

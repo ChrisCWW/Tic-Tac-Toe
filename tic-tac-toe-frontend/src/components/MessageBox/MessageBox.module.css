@@ -13,7 +13,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    backdrop-filter: blur(12px);
+    backdrop-filter: blur(max(1vw, 0.8vh));
     animation: blur 0.4s;
 }
 
@@ -23,16 +23,17 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    row-gap: 4vh;
-    background-color: var(--button-2);
-    border: 1px solid var(--border);
-    border-radius: 1vh;
-    padding: 6vh 6vh;
+    row-gap: 1vh;
+    background-color: var(--background);
+    border: max(4px, min(1.8vw, 0.8vh)) solid var(--border);
+    border-radius: max(8px, min(4vw, 2vh));
 }
 
 .content p {
     font-size: max(18px, 4vh);
     font-weight: 600;
+    padding-top: 5vh;
+    margin: auto 2vw;
 }
 
 .content .btnsView {
@@ -41,21 +42,22 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    row-gap: 16px;
-    column-gap: 1.5vw;
+    row-gap: 3vh;
+    column-gap: 3vh;
     width: 100%;
+    padding: 4vh;
 }
 
 .content .btnsView button {
     flex: 1;
-    height: 6vh;
-    min-width: 100px;
-    min-height: 30px;
-    background-color: var(--button-3);
-    border: 0.3vh solid var(--border);
-    border-radius: 1vh;
+    height: 8vh;
+    min-width: 120px;
+    min-height: 40px;
+    background-color: var(--button);
+    border: max(2px, min(1vw, 0.4vh)) solid var(--border);
+    border-radius: min(3vw, 1.5vh);
     color: var(--foreground);
-    font-size: 2vh;
+    font-size: max(12px, min(5vw, 2.6vh));
     font-weight: 600;
     transition: all 0.2s;
     cursor: pointer;

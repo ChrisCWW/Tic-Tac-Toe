@@ -4,15 +4,14 @@ import styles from './MessageBox.module.css';
 function MessageBox({
   message,
   button,
+  cancelText,
   cancel,
 }: { 
   message: string,
   button: { name: string, action: ()=> void },
+  cancelText? : string,
   cancel: ()=> void
 }) {
-  console.log("Message box");
-
-  // Disable mouse or touch events in gameboard
   const stopPropagation = (e: React.MouseEvent | React.TouchEvent) => e.stopPropagation();
 
   return (
@@ -25,7 +24,7 @@ function MessageBox({
       <div className={styles.content}>
         <p>{message}</p>
         <div className={styles.btnsView}>
-          <button onClick={cancel}>Cancel</button>
+          <button onClick={cancel}>{ cancelText ?? 'Cancel' }</button>
           <button onClick={button.action}>{button.name}</button>
         </div>
       </div>

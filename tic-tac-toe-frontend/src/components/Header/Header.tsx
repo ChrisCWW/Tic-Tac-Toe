@@ -5,7 +5,6 @@ import { usePathname } from 'next/navigation';
 import styles from './Header.module.css';
 
 function Header() {
-  console.log('Header');
 
   const path = usePathname();
   const isGaming = useMemo(() => path === '/game', [path]);

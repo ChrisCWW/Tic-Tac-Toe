@@ -2,29 +2,28 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
-  row-gap: 4vh;
+  row-gap: 5vh;
+  margin-bottom: max(1px, 8vh);
 }
 
 .container button {
   position: relative;
-  width: 68vw;
-  height: 14vh;
-  min-width: 30px;
-  min-height: 30px;
-  max-width: 60vh;
-  max-height: 30vw;
-  background-color: var(--button-2);
-  border: min(0.8vw, 0.8vh) solid var(--border);
-  border-radius: min(2vw, 2vh);
-  font-size: max(16px, 4vh);
-  font-weight: 600;
-  text-shadow: 0 0 min(0.3vw, 0.3vh) black;
+  width: 35vh;
+  height: 20vh;
+  max-width: 70vw;
+  max-height: 40vw;
+  background-color: var(--button);
+  border: min(1.8vw, 0.8vh) solid var(--border);
+  border-radius: min(4vw, 2vh);
   color: var(--foreground);
-  overflow: hidden;
+  font-size: max(16px, min(12vw, 5vh));
+  font-weight: 500;
+  text-shadow: 0 0 max(2px, min(0.6vw, 0.4vh)) black;
   transition: all 0.2s;
   cursor: pointer;
+  overflow: hidden;
 }
 .container button.disabled {
   opacity: 0.5;
@@ -36,10 +35,16 @@
   position: absolute;
   top: min(1.5vw, 1.5vh);
   right: min(1.5vw, 1.5vh);
-  width: min(1.5vw, 1.5vh);
-  height: min(1.5vw, 1.5vh);
+  width: min(3vw, 1.5vh);
+  height: min(3vw, 1.5vh);
   background-color: coral;
+  box-shadow: 0 0 max(2px, min(0.6vw, 0.4vh)) coral;
   border-radius: min(1.5vw, 1.5vh);
+}
+
+.container button .online.on {
+  background-color:darkcyan;
+  box-shadow: 0 0 max(2px, min(0.6vw, 0.4vh)) darkcyan;
 }
 
 @media (hover: hover) {

@@ -1,26 +1,25 @@
 'use client';
 
-import { useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Socket } from "socket.io-client";
 import { SocketIO } from '@/app/socket';
-import { updateIsConnect } from "@/lib/store/features/indexSlice";
+import { updateIsConnect } from "@/lib/store/features/IndexSlice";
 
 export default function useSocket() {
-    console.log("Socket");
     
     const dispatch = useDispatch();
-    const socket = useRef<Socket>();
+    const [socket, setSocket] = useState<Socket>();
 
     useEffect(() => {
         const socketIO = SocketIO();
-        socket.current = socketIO;
+        setSocket(socketIO);
 
         function onConnect() {
-            dispatch(updateIsConnect(true));
+            dispatch(updateIsConnect({ connect: true, uid: socketIO.id }));
         }
         function onDisconnect() {
-            dispatch(updateIsConnect(false));
+            dispatch(updateIsConnect({ connect: false }));
         }
 
         socketIO.on('connect', onConnect);
@@ -32,5 +31,5 @@ export default function useSocket() {
         }
     }, []);
 
-    return socket.current;
+    return socket;
 }

@@ -7,8 +7,8 @@ let socketIO: Socket;
 export const SocketIO = () => {
   if (!socketIO) {
     socketIO = io(process.env.SOCKET_URI, {
-      autoConnect: false,
-      reconnection: false,
+      autoConnect: true,
+      reconnection: true,
     });
   }
   return socketIO;

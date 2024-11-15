@@ -1,7 +1,7 @@
 export enum GameMode {
   null = 0,
   loacl,
-  match,
+  network,
 }
 
 export enum Winner {
@@ -12,3 +12,10 @@ export enum Winner {
 }
 
 export type GameBoard = number[][];
+
+export interface GameRoom {
+  room_id: string;
+  players: string[];
+  board: GameBoard;
+  turn: number;
+}

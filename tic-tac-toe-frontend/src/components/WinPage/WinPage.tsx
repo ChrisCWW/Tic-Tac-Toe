@@ -2,15 +2,10 @@ import React, { memo } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import styles from './WinPage.module.css';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/lib/store/store';
 
 function WinPage({ winner, restart}: { winner: number, restart: () => void }) {
-	console.log("win")
 
   const router = useRouter();
-  const isNetwork = useSelector((state: RootState) => state.index.isNetwork);
-  // Disable mouse or touch events in gameboard
   const stopPropagation = (e: React.MouseEvent | React.TouchEvent) => e.stopPropagation();
 
   const winnerContent = () => {
@@ -61,7 +56,7 @@ function WinPage({ winner, restart}: { winner: number, restart: () => void }) {
       <div className={styles.content}>
         <div className={styles.winner}>{ winnerContent() }</div>
         <div className={styles.btnsView}>
-		  { !isNetwork && <button onClick={restart}>Restart</button> }
+		  <button onClick={restart}>Restart</button>
           <button onClick={() => router.push('/')}>Home</button>
         </div>
       </div>

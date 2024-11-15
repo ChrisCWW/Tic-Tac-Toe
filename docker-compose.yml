@@ -1,0 +1,34 @@
+services:
+  tictactoe-frontend:
+    container_name: tictactoe-frontend
+    image: tictactoe-frontend:latest
+    build:
+      context: ./tic-tac-toe-frontend
+      dockerfile: ./Dockerfile
+    env_file:
+      - ./tic-tac-toe-frontend/.env.local
+    ports:
+      - "3000:3000"
+    networks:
+      - app-network
+    depends_on:
+      - tictactoe-backend
+
+  tictactoe-backend:
+    container_name: tictactoe-backend
+    image: tictactoe-backend:latest
+    build:
+      context: ./tic-tac-toe-backend
+      dockerfile: ./Dockerfile
+      args:
+        - PORT=8080
+    env_file:
+      - ./tic-tac-toe-backend/.env.local
+    ports:
+      - "8080:8080"
+    networks:
+      - app-network
+    
+networks:
+  app-network:
+    driver: bridge

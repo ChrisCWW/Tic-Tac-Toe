@@ -4,13 +4,12 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import Loading from "@/components/Loading/Loading";
-import { matchedGame, updateIsNetwork } from "@/lib/store/features/indexSlice";
-import styles from "./page.module.css";
-import { RootState } from "@/lib/store/store";
 import useSocket from "@/hooks/useSocket";
+import { startLocalGame, startNetworkGame } from "@/lib/store/features/GameSlice";
+import { RootState } from "@/lib/store/store";
+import styles from "./page.module.css";
 
 export default function Home() {
-  console.log("Home");
 
   const socket = useSocket();
   const router = useRouter();
@@ -19,56 +18,49 @@ export default function Home() {
   const isConnect = useSelector((state: RootState)=> state.index.isConnect);
   const [matching, setMatching] = useState(false);
 
-  const startLocalGame = () => {
-    dispatch(updateIsNetwork(false));
-    router.push('/game');
-  }
-
   const toggleMatch = (isMatch: boolean) => {
     if (isMatch) {
+      socket?.emit('ttt-match');  
       setMatching(true);
     } else {
+      socket?.emit('ttt-leave');  
       setMatching(false);
     }
   }
 
-  // useEffect(() => {
-  //   if (!socket) return;
+  const startLocal = () => {
+    dispatch(startLocalGame());
+    router.push('/game');
+  }
 
-  //   // Function to start a network game when a match is found and user still in matching, otherwise cancel it
-  //   function startNetworkGame(data: { uid: string, players: string[] }) {
-  //     if (matching) {
-  //       dispatch(matchedGame(data));
-  //       router.push('/game');  
-  //     } else {
-  //       socket?.emit('cancelMatch');
-  //     }
-  //   }
+  useEffect(() => {
+    if (!socket) return;
+
+    function startNetwork(data: { rid: string, players: string[] }) {
+      const { rid, players } = data;
+      dispatch(startNetworkGame({ rid, players }));
+      router.push('/game');
+    }
   
-  //   // Register the match listener when matching is true, otherwise cleanup it
-  //   if (matching) {
-  //     socket.on('match', startNetworkGame);
-  //     socket.emit('match');  
-  //   } else {
-  //     socket.off('match', startNetworkGame);
-  //     socket.emit('cancelMatch');
-  //   }
+    if (matching) {
+      socket.on('tt-battle', startNetwork);
+    } else {
+      socket.off('tt-battle', startNetwork);
+    }
 
-  //   // Cleanup function to remove event listeners and cancel matching
-  //   return () => {
-  //     socket.off('match', startNetworkGame);
-  //     socket.emit('cancelMatch');
-  //   };
-  // }, [matching])
+    return () => {
+      socket.off('tt-battle', startNetwork);
+    };
+  }, [matching])
   
   return (
     <div className={styles.container}>
-      <button onClick={startLocalGame}>Local</button>
+      <button onClick={startLocal}>Local</button>
       <button
         className={`${!isConnect && styles.disabled}`}
         onClick={()=> toggleMatch(true)}
       >
-        Match Game
+        Match
         <div className={`${styles.online} ${isConnect && styles.on}`}></div>
       </button>
       { matching && <Loading text="Matching" dismiss={() => toggleMatch(false)} /> }

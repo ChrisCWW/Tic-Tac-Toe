@@ -1,7 +1,8 @@
-import { boxMovement, cameraPos, canvasPointer, changeMaterial, changeMaterialTexture, coordToIdx, idxtoCoord, isMyTurn, turnValue } from "@/lib/utils/GameUtils";
-import { GameBoard } from "@/types/GameTypes";
 import { useEffect, useRef } from "react";
+import { useSelector } from "react-redux";
 import * as THREE from 'three';
+import { RootState } from "@/lib/store/store";
+import { boxMovement, cameraPos, canvasPointer, changeMaterial, changeMaterialTexture, coordToIdx, idxtoCoord, isMyTurn, turnValue } from "@/lib/utils/GameUtils";
 
 const fov = 50;
 const boxSize = 50;
@@ -11,22 +12,21 @@ const boxGeo = new THREE.BoxGeometry(boxSize, boxSize, boxSize);
 const boxColor = new THREE.Color(0xfaf8ef);
 const hoverColor = new THREE.Color(0xffdd55);
 
-export function useThree(
-    canvas: React.RefObject<HTMLDivElement>,
-    boxCount: number,
-    board: GameBoard,
-    turn: number,
-    isNetwork: boolean,
-    uid?: string,
-    players? : string[],
-) {
+export function useThree(canvas: React.RefObject<HTMLDivElement>, boxCount: number = 3) {
+  
     const scene = useRef<THREE.Scene>(new THREE.Scene());
     const camera = useRef<THREE.PerspectiveCamera>(new THREE.PerspectiveCamera());
     const renderer = useRef<THREE.WebGLRenderer>();
     const raycaster = useRef<THREE.Raycaster>(new THREE.Raycaster());
     const circle = useRef<THREE.Texture>();
     const cross = useRef<THREE.Texture>();
-  
+
+    const mode = useSelector((state: RootState) => state.game.mode);
+    const uid = useSelector((state: RootState) => state.index.uid);
+    const board = useSelector((state: RootState) => state.game.board);
+    const turn = useSelector((state: RootState) => state.game.turn);
+    const players = useSelector((state: RootState) => state.game.players);
+
     const loadAssets = () => {
       const loader = new THREE.TextureLoader();
       loader.load("/images/circle.png", (texture: THREE.Texture) => {
@@ -82,7 +82,6 @@ export function useThree(
 
       return () => {
         renderer.current?.dispose();
-        scene.current.clear();
       };
     }, []);
   
@@ -107,17 +106,18 @@ export function useThree(
       for (let y = 0; y < board.length; y++) {
         for (let x = 0; x < board[y].length; x++) {
           const idx = coordToIdx(boxCount, x, y);
-          const box = boxes.find((item) => item.userData.idx === idx);
+          const box = boxes.find((item) => item.userData.idx === idx) as THREE.Mesh<THREE.BoxGeometry, THREE.MeshStandardMaterial[]>;
           const value = board[y][x];
           if (!box || value <= 0) continue;
-    
+          const texture = value === 1 ? circle.current : value === 2 ? cross.current : null
+          if (!box.material[5]?.map) changeMaterialTexture(box, value, texture);
           boxMovement(box, new THREE.Vector2(x, y), boxCount, boxTotal);
         }
       }
     }
   
     function moveTouch(e: MouseEvent) {
-      if (!renderer.current || !isMyTurn(isNetwork, turn, players, uid)) return;
+      if (!renderer.current || !isMyTurn(mode, turn, players, uid)) return;
 
       // Find the intersect box with cursor
       const pointer = canvasPointer(renderer.current, e);
@@ -143,7 +143,7 @@ export function useThree(
     }
   
     function startTouch(e: MouseEvent | TouchEvent) {
-      if (!renderer.current || !isMyTurn(isNetwork, turn, players, uid)) return;
+      if (!renderer.current || !isMyTurn(mode, turn, players, uid)) return;
 
       // Find the intersect box with cursor
       const pointer = canvasPointer(renderer.current, e);
@@ -160,10 +160,9 @@ export function useThree(
       // Valid Movement
       const value = turnValue(turn);
       changeMaterial(box, boxColor);
-      changeMaterialTexture(box, value, turn % 2 ? cross.current : circle.current);
 
       // Return the coord of target box
-      return { coord, value };
+      return { idx, coord, value };
     }
 
     const resetBoard = () => { 

@@ -1,7 +1,7 @@
 import * as THREE from 'three';
-import { GameBoard } from '@/types/GameTypes';
+import { GameBoard, GameMode } from '@/types/GameTypes';
 
-export const initialGameBoard = (boxCount: number): GameBoard => {
+export const initialGameBoard = (boxCount: number = 3): GameBoard => {
   return Array(boxCount).fill(Array(boxCount).fill(0));
 }
 
@@ -112,9 +112,9 @@ function checkWinPattern(array: number[]){
   }
 }
 
-export function isMyTurn(network: boolean, turn: number, players?: string[], uid?: string) {
-  if (!network) return true;
-  if (!players?.length || players.length < 2 || uid) return false;
+export function isMyTurn(mode: GameMode, turn: number, players?: string[], uid?: string) {
+  if (mode === GameMode.loacl) return true;
+  if (!players?.length || players.length < 2 || !uid) return false;
   return players[turn % 2] === uid;
 }
 

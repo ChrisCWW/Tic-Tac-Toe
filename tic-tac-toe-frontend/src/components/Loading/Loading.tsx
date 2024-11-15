@@ -7,7 +7,6 @@ function Loading({text, dismiss }: { text?: string, dismiss?: () => void }) {
     if (dismiss) dismiss();
   };
 
-  // Disable mouse or touch events in gameboard
   const stopPropagation = (e: React.TouchEvent | React.MouseEvent) => {
     e.stopPropagation();
   }
