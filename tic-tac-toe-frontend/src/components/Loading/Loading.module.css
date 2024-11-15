@@ -1,0 +1,56 @@
+@keyframes blur {
+    from {
+        opacity: 0;
+        backdrop-filter: blur(0);
+    }
+}
+@keyframes dot1 {
+    0% { opacity: 0; }
+    33% { opacity: 0; }
+    34% { opacity: 1; }
+    100% { opacity: 1; }
+}
+@keyframes dot2 {
+    0% { opacity: 0; }
+    66% { opacity: 0; }
+    67% { opacity: 1; }
+    100% { opacity: 1; }
+}
+
+.container {
+    z-index: 2;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(6px);
+    animation: blur 0.4s;
+}
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 80px;
+    aspect-ratio: 1;
+    background-color: var(--button-2);
+    border: min(1vw, 1vh) solid var(--border);
+    border-radius: min(2vw, 2vh);
+    padding: min(3vw, 3vh);
+    animation: beat 4s infinite;
+}
+.loading * {
+    font-size: max(18px, min(3vw, 3vh));
+    font-weight: 600;
+    margin: 0;
+}
+
+.dot1 {
+    animation: dot1 2s infinite;
+}
+.dot2 {
+    animation: dot2 2s infinite;
+}

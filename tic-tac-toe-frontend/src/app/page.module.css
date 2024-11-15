@@ -1,0 +1,58 @@
+.container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  row-gap: 4vh;
+}
+
+.container button {
+  position: relative;
+  width: 68vw;
+  height: 14vh;
+  min-width: 30px;
+  min-height: 30px;
+  max-width: 60vh;
+  max-height: 30vw;
+  background-color: var(--button-2);
+  border: min(0.8vw, 0.8vh) solid var(--border);
+  border-radius: min(2vw, 2vh);
+  font-size: max(16px, 4vh);
+  font-weight: 600;
+  text-shadow: 0 0 min(0.3vw, 0.3vh) black;
+  color: var(--foreground);
+  overflow: hidden;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+.container button.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+  touch-action: none;
+}
+
+.container button .online {
+  position: absolute;
+  top: min(1.5vw, 1.5vh);
+  right: min(1.5vw, 1.5vh);
+  width: min(1.5vw, 1.5vh);
+  height: min(1.5vw, 1.5vh);
+  background-color: coral;
+  border-radius: min(1.5vw, 1.5vh);
+}
+
+@media (hover: hover) {
+  .container button:hover {
+    transform: scale(1.06);
+  }
+  .container button:active {
+    transform: scale(0.9);
+  }
+}
+
+@media (hover:none) {
+  .container button:active {
+    transform: scale(0.8);
+  }
+}

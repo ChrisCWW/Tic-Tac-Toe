@@ -1,0 +1,76 @@
+@keyframes blur {
+    from {
+        backdrop-filter: blur(0);
+    }
+}
+.messagebox {
+    z-index: 2;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(12px);
+    animation: blur 0.4s;
+}
+
+.content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    row-gap: 4vh;
+    background-color: var(--button-2);
+    border: 1px solid var(--border);
+    border-radius: 1vh;
+    padding: 6vh 6vh;
+}
+
+.content p {
+    font-size: max(18px, 4vh);
+    font-weight: 600;
+}
+
+.content .btnsView {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    row-gap: 16px;
+    column-gap: 1.5vw;
+    width: 100%;
+}
+
+.content .btnsView button {
+    flex: 1;
+    height: 6vh;
+    min-width: 100px;
+    min-height: 30px;
+    background-color: var(--button-3);
+    border: 0.3vh solid var(--border);
+    border-radius: 1vh;
+    color: var(--foreground);
+    font-size: 2vh;
+    font-weight: 600;
+    transition: all 0.2s;
+    cursor: pointer;
+}
+
+@media (hover: hover) {
+    .content .btnsView button:hover {
+        transform: scale(1.1);
+    }
+    .content .btnsView button:active {
+        transform: scale(0.9);
+    }
+}
+@media (hover: none) {
+    .content .btnsView button:active {
+        transform: scale(0.8);
+    }
+}

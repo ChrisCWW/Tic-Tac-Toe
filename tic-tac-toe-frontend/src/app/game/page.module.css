@@ -1,0 +1,22 @@
+.container {
+    flex: 1;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.container canvas{
+    width: 100vw;
+    max-width: calc(100vh - max(30vh, 40px));
+    aspect-ratio: 1;
+    cursor: pointer;
+}
+
+@media only screen and (max-width: 700px) {
+    .container {
+        flex-direction: column;
+    }
+}

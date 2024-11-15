@@ -1,0 +1,46 @@
+.header {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+    height: 30vh;
+    max-width: 90vw;
+    min-height: 40px;
+    row-gap: 2vh;
+    column-gap: 4vw;
+    margin: max(30px, min(5vw, 5vh)) max(16px, 5vw) 0;
+    transition: all 0.2s;
+    box-sizing: border-box;
+}
+
+.header h1, .header p {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    transition: all 0.2s;
+}
+
+.header h1 {
+    font-size: min(15vw , max(18px, 10vh));
+    text-shadow: 0 0 0.5vh black;
+}
+
+.header p {
+    font-size: min(6vw, max(12px, 4vh));
+    font-weight: 500;
+    text-shadow: 0 0 0.3vh black;
+}
+
+.header.game {
+    height: auto;
+    flex-direction: row;
+    justify-content: center;
+}
+.header.game h1 {
+    font-size: max(18px, 7vh);
+}
+.header.game p {
+    font-size: max(12px, 3vh);
+}
